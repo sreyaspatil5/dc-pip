@@ -1,0 +1,9 @@
+.main-content {
+  background: linear-gradient(to bottom, #64b5f6, white);
+  color: #0d47a1;
+  padding: 40px;
+  text-align: center;
+  backdrop-filter: blur(8px);
+  position: relative;
+  z-index: 1;
+}

@@ -1,0 +1,32 @@
+<div class="bg-white p-6 rounded-lg shadow-md space-y-4">
+  <h2 class="text-xl font-bold text-indigo-700 flex items-center gap-2">
+    💬 Feedback Received
+  </h2>
+
+  <div *ngIf="receivedFeedbacks.length > 0; else emptyReceived">
+    <div *ngFor="let fb of receivedFeedbacks" class="border-b border-gray-200 py-3">
+      <p class="font-semibold text-sm text-purple-800">
+        From: {{ fb.fromName || 'Anonymous' }}
+      </p>
+
+      <div class="text-gray-800 text-sm whitespace-pre-line">
+        {{ fb.content }}
+      </div>
+
+      <p class="text-xs text-gray-500 italic mt-1">
+        Received on: {{ fb.date | date: 'mediumDate' }}
+      </p>
+
+      <!-- ⭐ Star Rating if available -->
+      <div *ngIf="fb.rating" class="mt-2 flex gap-1 text-yellow-500 text-sm">
+        <ng-container *ngFor="let star of [1,2,3,4,5]">
+          <span [ngClass]="{ 'text-yellow-400': star <= fb.rating, 'text-gray-300': star > fb.rating }">★</span>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #emptyReceived>
+    <p class="text-sm text-gray-500 italic">No feedbacks received yet.</p>
+  </ng-template>
+</div>

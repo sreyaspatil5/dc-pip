@@ -1,0 +1,45 @@
+.error {
+
+  color: red;
+
+  font-size: 0.8em;
+
+  margin-bottom: 8px;
+
+}
+ 
+.invalid {
+
+  border-color: red;
+
+}
+ 
+.error-message {
+
+  margin-top: 10px;
+
+  color: white;
+
+  background-color: #f44336;
+
+  padding: 10px;
+
+  border-radius: 4px;
+
+}
+ 
+.success-message {
+
+  margin-top: 10px;
+
+  color: white;
+
+  background-color: #4caf50;
+
+  padding: 10px;
+
+  border-radius: 4px;
+
+}
+
+ 

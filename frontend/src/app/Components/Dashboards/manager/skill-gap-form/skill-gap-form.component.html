@@ -1,0 +1,101 @@
+<div class="p-4 sm:p-6">
+  <h2 class="text-xl sm:text-2xl font-bold text-purple-700 mb-4 sm:mb-6">Skill Gap Form</h2>
+
+  <!-- Add #formRef to access form state -->
+  <form #formRef="ngForm" (ngSubmit)="onSubmit()" class="space-y-4">
+
+    <!-- Employee Selection -->
+    <label class="block font-medium text-gray-700">Select Employee <span class="text-red-500">*</span></label>
+    <select
+      [(ngModel)]="selectedEmployeeId"
+      name="employee"
+      required
+      #employeeRef="ngModel"
+      class="w-full p-2 border rounded focus:ring focus:ring-purple-300">
+      <option value="">-- Select --</option>
+      <option *ngFor="let emp of employees" [value]="emp.id">{{ emp.name }}</option>
+    </select>
+    <p *ngIf="employeeRef.invalid && (employeeRef.touched || formRef.submitted)" class="text-red-500 text-sm">
+      Please select an employee.
+    </p>
+
+    <!-- Required Skills -->
+    <label class="block font-medium text-gray-700">Required Skills <span class="text-red-500">*</span></label>
+    <input
+      [(ngModel)]="requiredSkills"
+      name="requiredSkills"
+      required
+      minlength="2"
+      #reqSkillsRef="ngModel"
+      class="w-full p-2 border rounded focus:ring focus:ring-purple-300" />
+    <p *ngIf="reqSkillsRef.invalid && (reqSkillsRef.touched || formRef.submitted)" class="text-red-500 text-sm">
+      Required skills are mandatory (min 2 characters).
+    </p>
+
+    <!-- Current Skills -->
+    <label class="block font-medium text-gray-700">Current Skills <span class="text-red-500">*</span></label>
+    <input
+      [(ngModel)]="currentSkills"
+      name="currentSkills"
+      required
+      minlength="2"
+      #curSkillsRef="ngModel"
+      class="w-full p-2 border rounded focus:ring focus:ring-purple-300" />
+    <p *ngIf="curSkillsRef.invalid && (curSkillsRef.touched || formRef.submitted)" class="text-red-500 text-sm">
+      Current skills are mandatory (min 2 characters).
+    </p>
+
+    <!-- Gap Level -->
+    <label class="block font-medium text-gray-700">Gap Level (1–10) <span class="text-red-500">*</span></label>
+    <input
+      type="number"
+      [(ngModel)]="gapLevel"
+      name="gapLevel"
+      required
+      min="1"
+      max="10"
+      #gapLevelRef="ngModel"
+      class="w-full p-2 border rounded focus:ring focus:ring-purple-300" />
+    <p *ngIf="gapLevelRef.invalid && (gapLevelRef.touched || formRef.submitted)" class="text-red-500 text-sm">
+      Please provide a gap level between 1 and 10.
+    </p>
+
+    <!-- Skill -->
+    <label class="block font-medium text-gray-700">Skill <span class="text-red-500">*</span></label>
+    <input
+      [(ngModel)]="skill"
+      name="skill"
+      required
+      minlength="2"
+      #skillRef="ngModel"
+      class="w-full p-2 border rounded focus:ring focus:ring-purple-300" />
+    <p *ngIf="skillRef.invalid && (skillRef.touched || formRef.submitted)" class="text-red-500 text-sm">
+      Please enter a valid skill.
+    </p>
+
+    <!-- Suggested Training -->
+    <label class="block font-medium text-gray-700">Suggested Training <span class="text-red-500">*</span></label>
+    <input
+      [(ngModel)]="suggestedTraining"
+      name="suggestedTraining"
+      required
+      minlength="2"
+      #trainRef="ngModel"
+      class="w-full p-2 border rounded focus:ring focus:ring-purple-300" />
+    <p *ngIf="trainRef.invalid && (trainRef.touched || formRef.submitted)" class="text-red-500 text-sm">
+      Suggested training is required.
+    </p>
+
+    <!-- Submit Button -->
+    <button
+      type="submit"
+      [disabled]="formRef.invalid"
+      class="bg-purple-700 hover:bg-purple-800 text-white px-6 py-2 rounded disabled:opacity-50 disabled:cursor-not-allowed">
+      Submit
+    </button>
+  </form>
+
+  <!-- Server Messages -->
+  <div *ngIf="errorMessage" class="mt-4 text-red-600 font-medium">{{ errorMessage }}</div>
+  <div *ngIf="successMessage" class="mt-4 text-green-600 font-medium">{{ successMessage }}</div>
+</div>

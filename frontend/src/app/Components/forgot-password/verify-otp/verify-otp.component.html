@@ -1,0 +1,55 @@
+<form [formGroup]="form" (ngSubmit)="verifyAndReset()" class="max-w-md mx-auto p-6 bg-white rounded shadow space-y-4">
+  <h2 class="text-xl font-bold text-indigo-600 text-center">Verify OTP & Reset Password</h2>
+
+  <!-- Email -->
+  <div>
+    <label for="email" class="block text-sm font-medium">Email</label>
+    <input
+      id="email"
+      type="email"
+      formControlName="email"
+      class="w-full border px-3 py-2 rounded"
+      placeholder="you@example.com"
+      readonly
+    />
+  </div>
+
+  <!-- OTP -->
+  <div>
+    <label for="otp" class="block text-sm font-medium">OTP</label>
+    <input
+      id="otp"
+      type="text"
+      formControlName="otp"
+      class="w-full border px-3 py-2 rounded"
+      placeholder="Enter OTP"
+    />
+    <p *ngIf="form.get('otp')?.invalid && form.get('otp')?.touched" class="text-sm text-red-600">
+      OTP is required.
+    </p>
+  </div>
+
+  <!-- New Password -->
+  <div>
+    <label for="newPassword" class="block text-sm font-medium">New Password</label>
+    <input
+      id="newPassword"
+      type="password"
+      formControlName="newPassword"
+      class="w-full border px-3 py-2 rounded"
+      placeholder="Enter new password"
+    />
+    <p *ngIf="form.get('newPassword')?.invalid && form.get('newPassword')?.touched" class="text-sm text-red-600">
+      New password is required.
+    </p>
+  </div>
+
+  <!-- Submit Button -->
+  <button
+    type="submit"
+    class="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700 disabled:opacity-50"
+    [disabled]="form.invalid"
+  >
+    Verify & Reset Password
+  </button>
+</form>

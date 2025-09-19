@@ -1,0 +1,102 @@
+<div class="max-w-2xl mx-auto p-6 bg-white shadow rounded">
+<h2 class="text-xl font-semibold mb-4">📋 Add Employee to PIP</h2>
+ 
+  <form (ngSubmit)="submitToPip()" #pipForm="ngForm">
+<!-- Employee Dropdown -->
+<label class="block mb-2 font-medium">Employee</label>
+<select [(ngModel)]="pipEntry.employee.employeeId"
+
+            name="employeeId"
+
+            required
+
+            (ngModelChange)="onEmployeeSelect($event)"
+
+            class="w-full border px-3 py-2 rounded">
+<option *ngFor="let emp of employees" [value]="emp.employeeId">
+
+        {{ emp.name }}
+</option>
+</select>
+ 
+    <!-- Auto-filled Department & Designation -->
+<div class="mt-4 grid grid-cols-2 gap-4">
+<div>
+<label class="block mb-2 font-medium">Department</label>
+<input [(ngModel)]="pipEntry.department" name="department" readonly
+
+               class="w-full border px-3 py-2 rounded bg-gray-100" />
+</div>
+<div>
+<label class="block mb-2 font-medium">Designation</label>
+<input [(ngModel)]="pipEntry.designation" name="designation" readonly
+
+               class="w-full border px-3 py-2 rounded bg-gray-100" />
+</div>
+</div>
+ 
+    <!-- Start & End Date -->
+<div class="mt-4 grid grid-cols-2 gap-4">
+<div>
+<label class="block mb-2 font-medium">Start Date</label>
+<input type="date" [(ngModel)]="pipEntry.startDate" name="startDate" required
+
+               class="w-full border px-3 py-2 rounded" />
+</div>
+<div>
+<label class="block mb-2 font-medium">End Date</label>
+<input type="date" [(ngModel)]="pipEntry.endDate" name="endDate" required
+
+               class="w-full border px-3 py-2 rounded" />
+</div>
+</div>
+ 
+    <!-- Goals -->
+<label class="block mt-4 mb-2 font-medium">Goals</label>
+<textarea [(ngModel)]="pipEntry.goals" name="goals" rows="3"
+
+              class="w-full border px-3 py-2 rounded"></textarea>
+ 
+    <!-- Reviewer -->
+<label class="block mt-4 mb-2 font-medium">Reviewer</label>
+<select [(ngModel)]="pipEntry.reviewer.employeeId"
+
+            name="reviewerId"
+
+            class="w-full border px-3 py-2 rounded">
+<option *ngFor="let emp of employees" [value]="emp.employeeId">
+
+        {{ emp.name }}
+</option>
+</select>
+ 
+    <!-- Comments -->
+<label class="block mt-4 mb-2 font-medium">Comments</label>
+<textarea [(ngModel)]="pipEntry.comments" name="comments" rows="2"
+
+              class="w-full border px-3 py-2 rounded"></textarea>
+ 
+    <!-- Status -->
+<label class="block mt-4 mb-2 font-medium">Status</label>
+<select [(ngModel)]="pipEntry.status" name="status"
+
+            class="w-full border px-3 py-2 rounded">
+<option value="PENDING">Pending</option>
+<option value="ACTIVE">Active</option>
+<option value="COMPLETED">Completed</option>
+<option value="EXTENDED">Extended</option>
+</select>
+ 
+    <!-- Submit Button -->
+<button type="submit"
+
+            class="mt-6 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+
+      ➕ Add to PIP
+</button>
+</form>
+ 
+  <p class="mt-4 text-green-600" *ngIf="message">{{ message }}</p>
+</div>
+
+ 

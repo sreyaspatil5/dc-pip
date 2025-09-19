@@ -1,0 +1,54 @@
+<div class="p-4 sm:p-6">
+  <!-- Page Header -->
+  <h2 class="text-xl sm:text-2xl font-bold text-gray-800 flex items-center gap-2 mb-4 sm:mb-6">
+    <span>📊</span> Reports Overview
+  </h2>
+
+  <!-- Responsive Table Wrapper -->
+  <div class="bg-white shadow-lg rounded-2xl overflow-x-auto">
+    <table class="min-w-full border-collapse text-sm sm:text-base">
+      <thead>
+        <tr class="bg-gradient-to-r from-red-400 to-orange-500 text-white">
+          <th class="px-4 sm:px-6 py-3 text-left font-semibold whitespace-nowrap">Report ID</th>
+          <th class="px-4 sm:px-6 py-3 text-left font-semibold whitespace-nowrap">Type</th>
+          <th class="px-4 sm:px-6 py-3 text-left font-semibold whitespace-nowrap">Employee</th>
+          <th class="px-4 sm:px-6 py-3 text-left font-semibold whitespace-nowrap">Created By</th>
+          <th class="px-4 sm:px-6 py-3 text-left font-semibold whitespace-nowrap">Date</th>
+          <th class="px-4 sm:px-6 py-3 text-left font-semibold whitespace-nowrap">Download</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200">
+        <tr *ngFor="let report of reports" class="hover:bg-gray-50 transition">
+          <td class="px-4 sm:px-6 py-3 text-gray-700 font-medium">{{ report.reportId }}</td>
+          <td class="px-4 sm:px-6 py-3 text-gray-700 uppercase">{{ report.reportType }}</td>
+          <td class="px-4 sm:px-6 py-3 text-gray-700">{{ report.targetEmployeeName }}</td>
+          <td class="px-4 sm:px-6 py-3 text-gray-700">{{ report.createdByName || 'N/A' }}</td>
+          <td class="px-4 sm:px-6 py-3 text-gray-700 whitespace-nowrap">{{ report.generatedOn | date:'short' }}</td>
+          <td class="px-4 sm:px-6 py-3">
+            <button
+              *ngIf="report.fileUrl"
+              (click)="downloadReport(report.fileUrl, 'Report_' + report.reportId + '.pdf')"
+              class="text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-1 whitespace-nowrap">
+              ⬇️ Download
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && reports.length === 0" class="mt-6 text-center text-gray-500 text-sm sm:text-base">
+    🚫 No reports available.
+  </div>
+
+  <!-- Loader -->
+  <div *ngIf="loading" class="mt-6 text-center text-gray-500 animate-pulse text-sm sm:text-base">
+    ⏳ Loading reports...
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="error" class="mt-6 text-center text-red-500 text-sm sm:text-base">
+    {{ error }}
+  </div>
+</div>

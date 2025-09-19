@@ -1,0 +1,63 @@
+<div class="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-md max-w-4xl mx-auto">
+  <!-- Heading -->
+  <h2 class="text-3xl font-bold text-blue-800 dark:text-blue-300 mb-6 border-b pb-2 flex items-center gap-2">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24"
+      stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M5.121 17.804A4.992 4.992 0 017 16h10a4.992 4.992 0 011.879.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+    </svg>
+    Employee Directory
+  </h2>
+
+  <!-- Search Bar -->
+  <div class="mb-6 flex items-center gap-4">
+    <input
+      type="text"
+      placeholder="Search employees by name or role..."
+      [(ngModel)]="searchTerm"
+      name="search"
+      class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500
+             dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
+    />
+    <button
+      class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-md flex items-center gap-2"
+      (click)="searchTerm = ''"
+    >
+      <i class="fas fa-times"></i> Clear
+    </button>
+  </div>
+
+  <!-- Filtered Employee List -->
+  <ul class="space-y-4">
+    <li
+      *ngFor="let emp of filteredEmployees"
+      class="bg-gradient-to-br from-blue-100 to-white dark:from-blue-900 dark:to-gray-800 
+             hover:shadow-lg transition-all duration-300 p-4 rounded-lg flex justify-between items-center"
+    >
+      <div class="flex items-center gap-4">
+        <img
+          [src]="'https://i.pravatar.cc/100?u=' + emp.id"
+          alt="Avatar"
+          class="h-12 w-12 rounded-full border-2 border-blue-300 dark:border-blue-500 shadow-sm"
+        />
+        <div>
+          <p class="font-semibold text-gray-800 dark:text-gray-100">{{ emp.name }}</p>
+          <p class="text-sm text-gray-500 dark:text-gray-400">{{ emp.role }}</p>
+        </div>
+      </div>
+      <span
+        class="px-3 py-1 rounded-full text-xs font-medium"
+        [ngClass]="{
+          'bg-green-100 text-green-700 dark:bg-green-800 dark:text-green-300': emp.status === 'Active',
+          'bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-300': emp.status === 'On Leave',
+          'bg-red-100 text-red-600 dark:bg-red-800 dark:text-red-300': emp.status === 'PIP'
+        }"
+      >
+        {{ emp.status }}
+      </span>
+    </li>
+    <li *ngIf="filteredEmployees.length === 0" class="text-center py-8 text-gray-500 dark:text-gray-400">
+      No employees found.
+    </li>
+  </ul>
+</div>

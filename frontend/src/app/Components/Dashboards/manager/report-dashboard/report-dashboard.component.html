@@ -1,0 +1,110 @@
+<div class="p-4 sm:p-6 bg-gray-50 min-h-screen">
+  <div class="max-w-3xl mx-auto">
+    <!-- Form Section -->
+    <div class="bg-white shadow-lg rounded-2xl p-6 sm:p-8">
+      <h2 class="text-2xl font-bold text-center text-purple-700 mb-6">
+        {{ editingReportId ? 'Update Report' : 'Add Report' }}
+      </h2>
+
+      <!-- ✅ Messages -->
+      <div *ngIf="successMessage"
+           class="bg-green-100 text-green-700 p-3 rounded mb-4 text-center text-sm">
+        {{ successMessage }}
+      </div>
+      <div *ngIf="errorMessage && !successMessage"
+           class="bg-red-100 text-red-700 p-3 rounded mb-4 text-center text-sm">
+        {{ errorMessage }}
+      </div>
+
+      <form (ngSubmit)="onSubmit()" class="space-y-5">
+        <!-- Employee Select -->
+        <div *ngIf="!editingReportId">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Select Employee</label>
+          <select
+            [(ngModel)]="selectedEmployeeId"
+            name="employeeId"
+            class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-500 text-sm"
+            required
+          >
+            <option value="">-- Choose Employee --</option>
+            <option *ngFor="let emp of employees" [value]="emp.employeeId">{{ emp.name }}</option>
+          </select>
+        </div>
+
+        <!-- Report Type -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Report Type</label>
+          <select
+            [(ngModel)]="reportType"
+            name="reportType"
+            class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-500 text-sm"
+            required
+          >
+            <option value="">-- Select Type --</option>
+            <option value="PERFORMANCE">Performance</option>
+            <option value="PIP">PIP</option>
+            <option value="FEEDBACK">Feedback</option>
+          </select>
+        </div>
+
+        <!-- File Upload -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Upload Report File</label>
+          <input
+            type="file"
+            (change)="uploadFile($event)"
+            class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-500 text-sm"
+            [required]="!editingReportId"
+          />
+          <div *ngIf="fileUrl" class="text-xs text-green-700 mt-1">
+            Current File:
+            <a [href]="fileUrl" target="_blank" class="text-blue-600 underline">Download</a>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button
+          type="submit"
+          [disabled]="isSubmitting"
+          class="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition text-sm disabled:opacity-50"
+        >
+          {{ isSubmitting ? 'Submitting...' : editingReportId ? 'Update Report' : 'Submit Report' }}
+        </button>
+      </form>
+    </div>
+
+    <!-- Table Section -->
+    <div class="bg-white shadow-md rounded-2xl p-4 sm:p-6 mt-8" *ngIf="reports.length > 0">
+      <h3 class="text-xl font-semibold text-gray-800 mb-4">Submitted Reports</h3>
+      <div class="overflow-x-auto">
+        <table class="w-full text-xs sm:text-sm border-collapse">
+          <thead>
+            <tr class="bg-gray-100 text-left">
+              <th class="p-2 sm:p-3">Employee</th>
+              <th class="p-2 sm:p-3">Type</th>
+              <th class="p-2 sm:p-3">Date</th>
+              <th class="p-2 sm:p-3">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let report of reports" class="border-t border-gray-200 hover:bg-gray-50">
+              <td class="p-2 sm:p-3">{{ report.targetEmployeeName || report.targetEmployee?.name }}</td>
+              <td class="p-2 sm:p-3">{{ report.reportType }}</td>
+              <td class="p-2 sm:p-3">{{ report.generatedOn | date: 'short' }}</td>
+              <td class="p-2 sm:p-3 space-x-2">
+                <button
+                  (click)="downloadReport(report.reportId, report.reportType + '.pdf')"
+                  class="text-blue-600 hover:underline"
+                >
+                  Download
+                </button>
+                <button (click)="editReport(report)" class="text-indigo-600 hover:underline">Edit</button>
+                <button (click)="deleteReport(report.reportId)" class="text-red-600 hover:underline">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

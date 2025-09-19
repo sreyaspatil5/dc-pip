@@ -1,0 +1,91 @@
+ <div class="min-h-screen bg-gray-100 dark:bg-black text-gray-900 dark:text-white p-6 transition-colors duration-300">
+  <!-- 🔹 Header & Search -->
+  <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+    <h2 class="text-2xl font-bold text-gray-800 dark:text-white">Learning Resources</h2>
+    <input
+      [(ngModel)]="searchQuery"
+      type="text"
+      placeholder="Search by title or keyword..."
+      class="w-full md:w-72 px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm text-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+    />
+  </div>
+
+  <!-- 🔹 Topic Filter -->
+  <div class="mb-10 max-w-md">
+    <label for="topicFilter" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+      Filter by Topic
+    </label>
+    <select
+      id="topicFilter"
+      [(ngModel)]="selectedTopic"
+      class="w-full md:w-64 p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+    >
+      <option *ngFor="let topic of uniqueTopics" [value]="topic">{{ topic }}</option>
+    </select>
+  </div>
+
+  <!-- 🔹 Resource Grid -->
+  <div *ngIf="filteredResources.length > 0; else emptyState" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div
+      *ngFor="let resource of filteredResources"
+      class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-5 shadow-md hover:shadow-lg transition-all"
+    >
+      <div class="flex justify-between items-center mb-2">
+        <h3 class="text-lg font-semibold text-blue-600 dark:text-blue-400 hover:underline">
+          <a [href]="resource.link" target="_blank" rel="noopener">{{ resource.title }}</a>
+        </h3>
+        <span
+          class="text-xs font-medium"
+          [ngClass]="{
+            'text-green-600 dark:text-green-400': resource.status === 'Completed',
+            'text-yellow-600 dark:text-yellow-400': resource.status === 'In Progress',
+            'text-gray-500 dark:text-gray-400': resource.status === 'Not Started'
+          }"
+        >
+          {{ resource.status }}
+        </span>
+      </div>
+      <p class="text-sm text-gray-600 dark:text-gray-300 mb-1">
+        Topic: <span class="font-medium">{{ resource.topic }}</span>
+      </p>
+      <p class="text-sm text-gray-700 dark:text-gray-400">{{ resource.description }}</p>
+    </div>
+  </div>
+
+  <!-- 🔹 No Resources Fallback -->
+  <ng-template #emptyState>
+    <div class="text-center mt-20 text-gray-500 dark:text-gray-400 text-sm">
+      No resources found for your selected topic or search.
+    </div>
+  </ng-template>
+
+  <!-- 🔹 Divider -->
+  <div class="my-10 border-t border-gray-300 dark:border-gray-700"></div>
+
+  <!-- 🔹 Request a New Topic Form (left-aligned) -->
+  <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl shadow-md p-6 mb-10">
+    <h3 class="text-lg font-semibold mb-4 text-gray-800 dark:text-white flex items-center gap-2">
+      <span class="text-blue-500">📨</span> Request a New Learning Topic
+    </h3>
+
+    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Suggested Topic</label>
+    <input
+      [(ngModel)]="topicRequest"
+      type="text"
+      placeholder="e.g., Angular Signals, Leadership Skills..."
+      class="w-full p-2 mb-4 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+    />
+
+    <button
+      (click)="submitTopicRequest()"
+      [disabled]="!topicRequest.trim()"
+      class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md transition disabled:opacity-50"
+    >
+      ✏️ Submit Request
+    </button>
+
+    <p *ngIf="requestSuccess" class="text-green-600 dark:text-green-400 text-sm mt-4">
+      ✅ Your topic request has been submitted!
+    </p>
+  </div>
+</div>

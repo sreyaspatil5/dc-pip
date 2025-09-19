@@ -1,0 +1,44 @@
+<div class="max-w-md mx-auto bg-white p-6 rounded shadow">
+  <!-- ✅ Updated Title -->
+  <h2 class="text-xl font-bold text-indigo-600 mb-4">Feedback Form</h2>
+
+  <!-- Employee Dropdown -->
+  <label for="employee" class="block text-sm font-medium text-gray-700 mb-1">Select Employee</label>
+  <select [(ngModel)]="selectedEmployeeId" id="employee" class="w-full border rounded px-3 py-2 mb-4">
+    <option value="">-- Select --</option>
+    <option *ngFor="let emp of employees" [ngValue]="emp.employeeId">{{ emp.name }}</option>
+  </select>
+
+  <!-- Comment Box -->
+  <label for="comment" class="block text-sm font-medium text-gray-700 mb-1">Comment</label>
+  <textarea [(ngModel)]="comment" id="comment" rows="4" class="w-full border rounded px-3 py-2 mb-4" placeholder="Write your feedback..."></textarea>
+
+  <!-- Rating Input -->
+  <label for="rating" class="block text-sm font-medium text-gray-700 mb-1">Rating (1 to 5)</label>
+  <input
+    type="number"
+    [(ngModel)]="rating"
+    name="rating"
+    id="rating"
+    min="1"
+    max="5"
+    required
+    class="w-full border rounded px-3 py-2 mb-2"
+    placeholder="Enter rating between 1 and 5"
+  />
+
+  <!-- Submit Button -->
+  <button (click)="submitFeedback()" class="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700 transition">
+    ✅ Submit Feedback
+  </button>
+
+  <!-- Error Message -->
+  <div *ngIf="errorMessage" class="mt-2 text-red-600 text-sm">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Success Message -->
+  <div *ngIf="successMessage" class="mt-2 text-green-600 text-sm">
+    {{ successMessage }}
+  </div>
+</div>

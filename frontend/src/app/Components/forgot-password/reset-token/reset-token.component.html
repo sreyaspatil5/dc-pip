@@ -1,0 +1,48 @@
+<div class="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow space-y-6">
+  <h2 class="text-2xl font-bold text-indigo-600 text-center">🔐 Reset Password using Token</h2>
+
+  <form [formGroup]="form" (ngSubmit)="resetPassword()" class="space-y-4">
+
+    <!-- Token Field -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Reset Token</label>
+      <input
+        type="text"
+        formControlName="token"
+        placeholder="Enter token from email"
+        class="w-full mt-1 border px-3 py-2 rounded focus:outline-none focus:ring focus:ring-indigo-300"
+      />
+    </div>
+
+    <!-- New Password -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700">New Password</label>
+      <input
+        type="password"
+        formControlName="newPassword"
+        placeholder="Enter new password"
+        class="w-full mt-1 border px-3 py-2 rounded focus:outline-none focus:ring focus:ring-indigo-300"
+      />
+    </div>
+
+    <!-- Confirm Password -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Confirm Password</label>
+      <input
+        type="password"
+        formControlName="confirmPassword"
+        placeholder="Re-enter new password"
+        class="w-full mt-1 border px-3 py-2 rounded focus:outline-none focus:ring focus:ring-indigo-300"
+      />
+    </div>
+
+    <!-- Submit -->
+    <button
+      type="submit"
+      [disabled]="form.invalid || isSubmitting"
+      class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded disabled:opacity-50"
+    >
+      {{ isSubmitting ? 'Resetting...' : 'Reset Password' }}
+    </button>
+  </form>
+</div>

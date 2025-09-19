@@ -1,0 +1,103 @@
+<!-- Manager Overview Section -->
+<div *ngIf="!viewTeam" class="max-w-7xl mx-auto p-6 space-y-6">
+  <h2 class="text-2xl font-bold text-rose-700">Manager Overview</h2>
+
+  <!-- Search Bar -->
+  <div class="flex flex-col sm:flex-row gap-4 items-center">
+    <input
+      type="text"
+      [(ngModel)]="searchQuery"
+      (ngModelChange)="applyFilters()"
+      placeholder="Search by name or department"
+      class="w-full sm:w-1/2 border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-rose-500"
+    />
+
+    <select
+      [(ngModel)]="teamSizeFilter"
+      (ngModelChange)="applyFilters()"
+      class="w-full sm:w-48 border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-rose-500"
+    >
+      <option value="">Filter by Team Size</option>
+      <option value="1-5">1–5</option>
+      <option value="6-10">6–10</option>
+      <option value="10+">10+</option>
+    </select>
+  </div>
+
+  <!-- Manager Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div
+      *ngFor="let manager of filteredManagers"
+      class="bg-white rounded-lg shadow hover:shadow-lg transition p-5 space-y-2"
+    >
+      <div class="flex items-center space-x-4">
+        <div>
+          <h3
+            class="text-lg font-semibold text-gray-800 cursor-pointer hover:text-rose-600"
+            (click)="viewManagerDetails(manager)"
+            title="Click to view manager details"
+          >
+            {{ manager.name }}
+          </h3>
+          <p class="text-sm text-gray-500">{{ manager.role }}</p>
+          <p class="text-xs text-gray-400">Dept: {{ manager.department }}</p>
+        </div>
+      </div>
+      <div class="flex flex-wrap gap-2 text-sm text-gray-600 mt-3">
+        <span
+          class="bg-green-100 text-green-700 px-2 py-0.5 rounded-full cursor-pointer"
+          title="Click to view team"
+          (click)="showTeam(manager)"
+        >
+          {{ manager.teamSize }} Team Members
+        </span>
+        <span
+          class="bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded-full cursor-pointer"
+          title="Click to view PIP list"
+        >
+          {{ manager.pipCount }} Under PIP
+        </span>
+      </div>
+      <div class="pt-3 flex justify-end">
+        <button
+          class="text-sm text-rose-600 hover:underline"
+          (click)="showTeam(manager)"
+        >
+          View Team
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Team View Section -->
+<div *ngIf="viewTeam" class="max-w-5xl mx-auto p-6 space-y-6">
+  <div class="flex justify-between items-center">
+    <h2 class="text-2xl font-bold text-indigo-700">{{ selectedManager.name }}’s Team</h2>
+    <button class="text-sm text-rose-600 hover:underline" (click)="backToOverview()">← Back</button>
+  </div>
+
+  <table class="min-w-full bg-white rounded-lg shadow overflow-hidden">
+    <thead class="bg-gray-100 text-left text-sm text-gray-600">
+      <tr>
+        <th class="px-6 py-3">Name</th>
+        <th class="px-6 py-3">Role</th>
+        <th class="px-6 py-3">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let member of selectedManager.team" class="border-t text-sm">
+        <td class="px-6 py-3 text-gray-800">{{ member.name }}</td>
+        <td class="px-6 py-3 text-gray-600">{{ member.role }}</td>
+        <td class="px-6 py-3">
+          <span [ngClass]="{
+            'text-green-600': member.status === 'Active',
+            'text-yellow-600': member.status === 'PIP'
+          }">
+            {{ member.status }}
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,9 @@
+.gradient-card {
+  @apply bg-gradient-to-r from-pink-500 via-rose-400 to-orange-400 text-white p-6 rounded-xl shadow-md transition hover:scale-105 hover:shadow-xl;
+}
+.card-title {
+  @apply text-lg font-semibold mb-2;
+}
+.card-value {
+  @apply text-3xl font-bold;
+}

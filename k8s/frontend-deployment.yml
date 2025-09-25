@@ -29,7 +29,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: spquantum/frontend:a1
+          image: spquantum/pip-frontend:v2
           ports:
             - containerPort: 80
           readinessProbe:
